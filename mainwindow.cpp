@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "Calibrator.h"
 #include <QFileDialog>
 #include <QVBoxLayout>
 #include <QShortcut>
@@ -213,7 +214,34 @@ void MainWindow::loadSceneTriggered()
 
 void MainWindow::calibrate()
 {
-    QMessageBox::information(this, tr("Calibrate"), tr("Calibration not implemented."));
+    if(imagePaths.isEmpty()) {
+        QMessageBox::warning(this, tr("Calibrate"), tr("No images loaded."));
+        return;
+    }
+
+    Calibrator calib;
+    calib.loadImages(imagePaths);
+
+    QMap<int, QMap<int, QPointF>> pointData;
+    for(int setId=0; setId<locators.size(); ++setId) {
+        for(auto it = locators[setId].positions.begin(); it != locators[setId].positions.end(); ++it) {
+            pointData[setId][it.key()] = it.value() * QPointF(images[it.key()].width(), images[it.key()].height());
+        }
+    }
+    calib.loadPointData(pointData);
+
+    if(!calib.calibrate()) {
+        QMessageBox::critical(this, tr("Calibrate"), tr("Calibration failed."));
+        return;
+    }
+
+    QMap<QString,float> locErr = calib.getReprojectionError();
+    for(int i=0;i<locators.size();++i)
+        locators[i].error = locErr.value(QString::number(i), 0.0f);
+    imageErrors = calib.getReprojectionErrorsPerImage();
+
+    QMessageBox::information(this, tr("Calibrate"), tr("Calibration completed."));
+    updateTree();
 }
 
 void MainWindow::defineWorldspace()
