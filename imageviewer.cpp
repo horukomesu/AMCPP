@@ -1,4 +1,5 @@
 #include "imageviewer.h"
+#include "amutilities.h"
 #include <QGraphicsScene>
 #include <QWheelEvent>
 #include <QScrollBar>
@@ -48,8 +49,8 @@ void ImageViewer::setMarkers(const QList<ViewerMarker> &markers)
 
     for (const ViewerMarker &m : markers) {
         QPointF pos(m.x * sceneRect().width(), m.y * sceneRect().height());
-        QPen pen(Qt::red);
-        pen.setWidth(1);
+        QPen pen(errorToColor(m.error));
+        pen.setWidth(m.highlight ? 2 : 1);
         QGraphicsLineItem *l1 = scene()->addLine(-5, 0, 5, 0, pen);
         QGraphicsLineItem *l2 = scene()->addLine(0, -5, 0, 5, pen);
         l1->setPos(pos);

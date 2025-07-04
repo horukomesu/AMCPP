@@ -48,6 +48,7 @@ private:
     QStringList imagePaths;
     QVector<QImage> images;
     QList<LocatorData> locators;
+    QMap<int, float> imageErrors;
     QString selectedLocator;
     QString sceneFilePath;
     bool locatorMode;

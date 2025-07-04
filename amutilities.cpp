@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "filesystem.h"
 
 QColor errorToColor(float error, float minErr, float maxErr)
 {
@@ -61,20 +62,17 @@ bool saveScene(const QString &path, const QStringList &imagePaths, const QList<L
     root["locators"] = locArr;
 
     QJsonDocument doc(root);
-    QFile f(path);
-    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate))
-        return false;
-    f.write(doc.toJson());
-    return true;
+    QByteArray jsonData = doc.toJson();
+    return saveAms(path, jsonData, imagePaths);
 }
 
 bool loadSceneAms(const QString &path, QStringList &imagePaths, QList<LocatorData> &locators)
 {
-    QFile f(path);
-    if (!f.open(QIODevice::ReadOnly))
+    QByteArray jsonData;
+    QList<LoadedImage> loadedImages;
+    if(!loadAms(path, jsonData, loadedImages))
         return false;
-    QByteArray data = f.readAll();
-    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
     if (!doc.isObject())
         return false;
     QJsonObject root = doc.object();

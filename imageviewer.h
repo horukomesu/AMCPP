@@ -12,6 +12,7 @@ struct ViewerMarker {
     float y;
     QString name;
     float error = 0.0f;
+    bool highlight = false;
 };
 
 class ImageViewer : public QGraphicsView
