@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 set(TS_FILES AutomodellerCPP_en_US.ts)
 
 set(PROJECT_SOURCES
@@ -21,6 +23,8 @@ set(PROJECT_SOURCES
         mainwindow.ui
         imageviewer.cpp
         imageviewer.h
+        filesystem.cpp
+        filesystem.h
         amutilities.cpp
         amutilities.h
         ${TS_FILES}

@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     locatorMode = false;
     sceneFilePath.clear();
+    imageErrors.clear();
 
 
     connect(ui->MainTree, &QTreeWidget::currentItemChanged,
@@ -65,6 +66,7 @@ void MainWindow::importImages()
     images = loadImages(paths);
     locators.clear();
     selectedLocator.clear();
+    imageErrors.clear();
     if (!images.isEmpty()) {
         showImage(0);
     } else {
@@ -110,7 +112,7 @@ void MainWindow::onLocatorAdded(float x, float y)
     for (const LocatorData &l : locators) {
         if (l.positions.contains(currentIndex)) {
             QPointF p = l.positions.value(currentIndex);
-            ViewerMarker m{static_cast<float>(p.x()), static_cast<float>(p.y()), l.name, l.error};
+            ViewerMarker m{static_cast<float>(p.x()), static_cast<float>(p.y()), l.name, l.error, l.name == selectedLocator};
             markers.append(m);
         }
     }
@@ -129,7 +131,7 @@ void MainWindow::showImage(int index, bool keepView)
     for (const LocatorData &l : locators) {
         if (l.positions.contains(index)) {
             QPointF p = l.positions.value(index);
-            ViewerMarker m{static_cast<float>(p.x()), static_cast<float>(p.y()), l.name, l.error};
+            ViewerMarker m{static_cast<float>(p.x()), static_cast<float>(p.y()), l.name, l.error, l.name == selectedLocator};
             markers.append(m);
         }
     }
@@ -157,6 +159,7 @@ void MainWindow::newScene()
     images.clear();
     locators.clear();
     selectedLocator.clear();
+    imageErrors.clear();
     sceneFilePath.clear();
     currentIndex = -1;
     viewer->loadImage(QImage());
@@ -202,6 +205,7 @@ void MainWindow::loadSceneTriggered()
     images = loadImages(imgs);
     locators = locs;
     selectedLocator.clear();
+    imageErrors.clear();
     if (!images.isEmpty())
         showImage(0);
     updateTree();
@@ -232,11 +236,17 @@ void MainWindow::updateTree()
     ui->MainTree->clear();
     QTreeWidgetItem *imgRoot = new QTreeWidgetItem(ui->MainTree, QStringList(tr("Images")));
     for (int i = 0; i < imagePaths.size(); ++i) {
-        new QTreeWidgetItem(imgRoot, QStringList(QFileInfo(imagePaths[i]).fileName()));
+        QTreeWidgetItem *it = new QTreeWidgetItem(imgRoot, QStringList(QFileInfo(imagePaths[i]).fileName()));
+        float err = 0.0f;
+        if(imageErrors.contains(i)) err = imageErrors.value(i);
+        QPixmap pix(16,16); pix.fill(errorToColor(err));
+        it->setIcon(0,QIcon(pix));
     }
     QTreeWidgetItem *locRoot = new QTreeWidgetItem(ui->MainTree, QStringList(tr("Locators")));
     for (const LocatorData &l : locators) {
-        new QTreeWidgetItem(locRoot, QStringList(l.name));
+        QTreeWidgetItem *it = new QTreeWidgetItem(locRoot, QStringList(l.name));
+        QPixmap pix(16,16); pix.fill(errorToColor(l.error));
+        it->setIcon(0,QIcon(pix));
     }
     imgRoot->setExpanded(true);
     locRoot->setExpanded(true);
