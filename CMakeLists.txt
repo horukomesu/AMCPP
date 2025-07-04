@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(AutomodellerCPP VERSION 0.1 LANGUAGES CXX)
+project(AutomodellerCPP VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -27,6 +27,7 @@ set(PROJECT_SOURCES
         filesystem.h
         amutilities.cpp
         amutilities.h
+        miniz.c
         ${TS_FILES}
 )
 
@@ -58,7 +59,7 @@ else()
 endif()
 
 target_link_libraries(AutomodellerCPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
+set_source_files_properties(miniz.c PROPERTIES LANGUAGE C)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
