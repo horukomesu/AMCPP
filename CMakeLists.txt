@@ -15,6 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql LinguistTools
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(TS_FILES AutomodellerCPP_en_US.ts)
+set(CMAKE_TOOLCHAIN_FILE "C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 set(PROJECT_SOURCES
         main.cpp
