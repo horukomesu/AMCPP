@@ -19,6 +19,10 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        imageviewer.cpp
+        imageviewer.h
+        amutilities.cpp
+        amutilities.h
         ${TS_FILES}
 )
 
