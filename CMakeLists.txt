@@ -46,12 +46,12 @@ set(PROJECT_SOURCES
         filesystem.h
         amutilities.cpp
         amutilities.h
-        DatabaseHelper.cpp
-        DatabaseHelper.h
-        Calibrator.cpp
-        Calibrator.h
-        Runner.cpp
-        Runner.h
+
+
+
+
+
+
         miniz.c
         ${TS_FILES}
 )
