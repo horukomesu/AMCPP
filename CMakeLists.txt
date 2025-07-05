@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-
+set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 project(AutomodellerCPP VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_AUTOUIC ON)
@@ -11,11 +11,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql LinguistTools)
+find_package(colmap REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(TS_FILES AutomodellerCPP_en_US.ts)
-set(CMAKE_TOOLCHAIN_FILE "C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake")
+set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems")
 
 set(PROJECT_SOURCES
         main.cpp
@@ -65,7 +66,11 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(AutomodellerCPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql)
+target_link_libraries(AutomodellerCPP PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+    colmap::colmap
+)
 set_source_files_properties(miniz.c PROPERTIES LANGUAGE C)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
