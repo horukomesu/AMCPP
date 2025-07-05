@@ -8,6 +8,7 @@
 #include <QKeySequence>
 #include <QMessageBox>
 #include <QFileInfo>
+#include <qdebug.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -214,6 +215,7 @@ void MainWindow::loadSceneTriggered()
 
 void MainWindow::calibrate()
 {
+
     if(imagePaths.isEmpty()) {
         QMessageBox::warning(this, tr("Calibrate"), tr("No images loaded."));
         return;
@@ -225,7 +227,7 @@ void MainWindow::calibrate()
     QMap<int, QMap<int, QPointF>> pointData;
     for(int setId=0; setId<locators.size(); ++setId) {
         for(auto it = locators[setId].positions.begin(); it != locators[setId].positions.end(); ++it) {
-            pointData[setId][it.key()] = it.value() * QPointF(images[it.key()].width(), images[it.key()].height());
+            pointData[setId][it.key()] =  QPointF(it.value().x() * images[it.key()].width(),it.value().y() * images[it.key()].height());
         }
     }
     calib.loadPointData(pointData);

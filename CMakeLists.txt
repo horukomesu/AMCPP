@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
-set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+if(WIN32)
+    set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
 project(AutomodellerCPP VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_AUTOUIC ON)
@@ -16,7 +18,10 @@ find_package(colmap REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(TS_FILES AutomodellerCPP_en_US.ts)
-set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems")
+
+if(WIN32)
+    set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems")
+endif()
 
 set(PROJECT_SOURCES
         main.cpp
