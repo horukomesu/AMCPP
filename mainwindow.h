@@ -27,7 +27,7 @@ private slots:
     void saveSceneTriggered();
     void saveSceneAsTriggered();
     void loadSceneTriggered();
-    void calibrate();
+//void calibrate();
     void defineWorldspace();
     void defineReferenceDistance();
     void addModelingLocator();

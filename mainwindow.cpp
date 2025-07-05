@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveSceneTriggered);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveSceneAsTriggered);
     connect(ui->btnAddLoc, &QPushButton::clicked, this, &MainWindow::addLocator);
-    connect(ui->btnCalibrate, &QPushButton::clicked, this, &MainWindow::calibrate);
+    //connect(ui->btnCalibrate, &QPushButton::clicked, this, &MainWindow::calibrate);
     connect(ui->btnDFWS, &QPushButton::clicked, this, &MainWindow::defineWorldspace);
     connect(ui->btnDFMM, &QPushButton::clicked, this, &MainWindow::defineReferenceDistance);
     connect(ui->btnLocMod, &QPushButton::clicked, this, &MainWindow::addModelingLocator);
@@ -213,38 +213,7 @@ void MainWindow::loadSceneTriggered()
     updateTree();
 }
 
-void MainWindow::calibrate()
-{
 
-    if(imagePaths.isEmpty()) {
-        QMessageBox::warning(this, tr("Calibrate"), tr("No images loaded."));
-        return;
-    }
-
-    Calibrator calib;
-    calib.loadImages(imagePaths);
-
-    QMap<int, QMap<int, QPointF>> pointData;
-    for(int setId=0; setId<locators.size(); ++setId) {
-        for(auto it = locators[setId].positions.begin(); it != locators[setId].positions.end(); ++it) {
-            pointData[setId][it.key()] =  QPointF(it.value().x() * images[it.key()].width(),it.value().y() * images[it.key()].height());
-        }
-    }
-    calib.loadPointData(pointData);
-
-    if(!calib.calibrate()) {
-        QMessageBox::critical(this, tr("Calibrate"), tr("Calibration failed."));
-        return;
-    }
-
-    QMap<QString,float> locErr = calib.getReprojectionError();
-    for(int i=0;i<locators.size();++i)
-        locators[i].error = locErr.value(QString::number(i), 0.0f);
-    imageErrors = calib.getReprojectionErrorsPerImage();
-
-    QMessageBox::information(this, tr("Calibrate"), tr("Calibration completed."));
-    updateTree();
-}
 
 void MainWindow::defineWorldspace()
 {
