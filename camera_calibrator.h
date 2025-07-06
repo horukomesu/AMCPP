@@ -17,6 +17,7 @@ public:
   QVector<QMatrix3x3> getIntrinsics() const { return m_intrinsics; }
   QVector<QMatrix3x3> getRotations() const { return m_rotations; }
   QVector<QVector3D> getTranslations() const { return m_translations; }
+  QVector<int> getRegisteredIndices() const { return m_registeredIndices; }
   QMap<int, double> getReprojectionErrorPerImage() const;
 
 private:
