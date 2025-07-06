@@ -1,5 +1,6 @@
 #include "tools.h"
 #include "imageviewer.h"
+#include "mainwindow.h"
 
 ToolController::ToolController(ImageViewer *viewer, QObject *parent)
     : QObject(parent), m_viewer(viewer), m_currentTool(nullptr), m_activeType(ToolType::None)
@@ -50,6 +51,17 @@ void AddLocatorTool::onMousePress(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton)
         return;
+
+    if (event->modifiers() & Qt::ControlModifier) {
+        if (viewer()) {
+            auto *mw = qobject_cast<MainWindow*>(viewer()->window());
+            if (mw) {
+                QMetaObject::invokeMethod(mw, "addLocator");
+                event->accept();
+            }
+        }
+        return;
+    }
     if (!viewer())
         return;
     QPointF pos = viewer()->mapToScene(event->pos());
