@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QList>
 #include <QPointF>
+#include "tools.h"
 
 struct ViewerMarker {
     float x;
@@ -20,6 +21,7 @@ class ImageViewer : public QGraphicsView
     Q_OBJECT
 public:
     explicit ImageViewer(QWidget *parent = nullptr);
+    void setToolController(ToolController *controller);
 
     void loadImage(const QImage &img, bool keepTransform = false);
     void setMarkers(const QList<ViewerMarker> &markers);
@@ -43,6 +45,7 @@ private:
     QPoint m_panStart;
     bool m_addingLocator;
     qreal m_zoomStep;
+    ToolController *m_toolController;
 };
 
 #endif // IMAGEVIEWER_H

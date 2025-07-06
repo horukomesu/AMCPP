@@ -1,4 +1,5 @@
 #include "imageviewer.h"
+#include "tools.h"
 #include "amutilities.h"
 #include <QGraphicsScene>
 #include <QWheelEvent>
@@ -11,7 +12,8 @@ ImageViewer::ImageViewer(QWidget *parent)
       m_pixmapItem(new QGraphicsPixmapItem()),
       m_panning(false),
       m_addingLocator(false),
-      m_zoomStep(1.2)
+      m_zoomStep(1.2),
+      m_toolController(nullptr)
 {
     setScene(new QGraphicsScene(this));
     scene()->addItem(m_pixmapItem);
@@ -20,6 +22,11 @@ ImageViewer::ImageViewer(QWidget *parent)
     setDragMode(QGraphicsView::NoDrag);
     setTransformationAnchor(QGraphicsView::NoAnchor);
     setResizeAnchor(QGraphicsView::NoAnchor);
+}
+
+void ImageViewer::setToolController(ToolController *controller)
+{
+    m_toolController = controller;
 }
 
 void ImageViewer::loadImage(const QImage &img, bool keepTransform)
@@ -74,6 +81,12 @@ void ImageViewer::setAddingLocator(bool adding)
 
 void ImageViewer::mousePressEvent(QMouseEvent *event)
 {
+    if (m_toolController) {
+        m_toolController->mousePressEvent(event);
+        if (event->isAccepted())
+            return;
+    }
+
     if (m_addingLocator && event->button() == Qt::LeftButton) {
         QPointF pos = mapToScene(event->pos());
         float x = pos.x() / sceneRect().width();
@@ -108,6 +121,11 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
 
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
+    if (m_toolController) {
+        m_toolController->mouseMoveEvent(event);
+        if (event->isAccepted())
+            return;
+    }
     if (m_panning) {
         QPoint delta = event->pos() - m_panStart;
         m_panStart = event->pos();
@@ -120,6 +138,11 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 
 void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (m_toolController) {
+        m_toolController->mouseReleaseEvent(event);
+        if (event->isAccepted())
+            return;
+    }
     if (event->button() == Qt::MiddleButton && m_panning) {
         m_panning = false;
         setCursor(m_addingLocator ? Qt::CrossCursor : Qt::ArrowCursor);
