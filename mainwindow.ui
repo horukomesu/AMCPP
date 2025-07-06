@@ -27,243 +27,258 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">/* === Глобальный фон и текст === */
-QWidget {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #1e1e1e, stop:1 #242424);
-    color: #d0d0d0;
-    font-family: &quot;Segoe UI&quot;, &quot;Roboto&quot;, &quot;San Francisco&quot;, sans-serif;
-    font-size: 8pt;
-    border: 2px solid #242424;
-}
-
-/* === QMainWindow / QDialog / QFrame === */
-QMainWindow {
-    background-color: #1e1e1e;
-    border: none;
-}
-
-QDialog, QFrame{
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #1e1e1e, stop:1 #242424);
-}
-
-/* === QLabel / QCheckBox / QRadioButton === */
-QLabel, QCheckBox, QRadioButton {
-    color: #d0d0d0;
-}
-QCheckBox:disabled, QRadioButton:disabled {
-    color: #666;
-}
-
-/* === QPushButton, QToolButton, QCommandLinkButton === */
-QPushButton, QToolButton, QCommandLinkButton {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #1e1e1e, stop:1 #242424);
-    border: 1px solid #5c5c5c;
-    border-radius: 6px;
+   <string notr="true">/* ==== GLOBAL STYLES ==== */
+* {
+    font-family: &quot;Segoe UI&quot;, &quot;Tahoma&quot;, sans-serif;
+    font-size: 10pt;
     color: #e0e0e0;
-    font-weight: normal;
-}
-QPushButton:hover, QToolButton:hover {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #4a4a4a, stop:1 #393939);
-}
-QPushButton:pressed, QToolButton:pressed {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #2b547e, stop:1 #1c2a3a);
-    border: 1px solid #2e74d0;
-    color: #ffffff;
-}
-QPushButton:disabled, QToolButton:disabled {
-    color: #777;
     background: #2b2b2b;
 }
 
-/* === QLineEdit, QTextEdit, QPlainTextEdit, SpinBoxes === */
-QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QDoubleSpinBox,
-QTimeEdit, QDateEdit, QDateTimeEdit {
+QWidget {
     background-color: #2b2b2b;
-    color: #ffffff;
-    border: 1px solid #5c5c5c;
-    border-radius: 6px;
-    padding: 4px;
-}
-QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus {
-    border: 1px solid #2e74d0;
+    color: #e0e0e0;
+    border: none;
 }
 
-/* === QComboBox === */
-QComboBox {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #3a3a3a, stop:1 #2d2d2d);
-    border: 1px solid #5c5c5c;
-    padding: 4px;
-    border-radius: 6px;
-    color: #dcdcdc;
+/* ==== QMainWindow ==== */
+QMainWindow {
+    background-color: #2a2a2a;
 }
-QComboBox QAbstractItemView {
-    background-color: #252525;
-    color: #dcdcdc;
-    border: 1px solid #5c5c5c;
-    selection-background-color: #2b547e;
+
+/* ==== QPushButton ==== */
+QPushButton {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #3a3a3a, stop: 1 #2a2a2a);
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 4px 10px;
+    min-height: 24px;
+}
+QPushButton:hover {
+    background-color: #444;
+}
+QPushButton:pressed {
+    background-color: #555;
+}
+QPushButton:disabled {
+    background-color: #2a2a2a;
+    color: #666;
+    border-color: #333;
+}
+
+/* ==== QLineEdit ==== */
+QLineEdit {
+    background-color: #1f1f1f;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 4px;
+    color: #ffffff;
+    selection-background-color: #007acc;
+    selection-color: #ffffff;
+}
+
+/* ==== QComboBox ==== */
+QComboBox {
+    background-color: #1f1f1f;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 4px 8px;
+    min-width: 6em;
+}
+QComboBox:hover {
+    border: 1px solid #777;
 }
 QComboBox::drop-down {
     subcontrol-origin: padding;
     subcontrol-position: top right;
     width: 20px;
-    border-left: 1px solid #5c5c5c;
-    background-color: #3a3a3a;
+    border-left: 1px solid #555;
 }
 QComboBox::down-arrow {
-    image: url(/usr/share/icons/Adwaita/16x16/actions/go-down-symbolic.symbolic.png);
+    image: url(:/icons/downarrow.png);
+    width: 10px;
+    height: 10px;
 }
 
-/* === QCheckBox === */
-QCheckBox::indicator:unchecked {
-    border: 1px solid #5c5c5c;
-    background: #2a2a2a;
-    border-radius: 3px;
-    width: 14px; height: 14px;
-}
-QCheckBox::indicator:checked {
-    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #2e74d0, stop:1 #2b547e);
-    image: url(/usr/share/icons/Adwaita/16x16/actions/object-select-symbolic.symbolic.png);
-    border-radius: 3px;
-    width: 14px; height: 14px;
-}
-
-/* === QRadioButton === */
-QRadioButton::indicator {
-    width: 14px; height: 14px;
-    border-radius: 7px;
-}
-QRadioButton::indicator:unchecked {
-    background: #2a2a2a;
-    border: 1px solid #5c5c5c;
-}
-QRadioButton::indicator:checked {
-    background-color: qradialgradient(cx:0.5, cy:0.5, radius:0.4,
-        fx:0.5, fy:0.5, stop:0 #ffffff, stop:1 #2b547e);
-    border: 1px solid #2e74d0;
-}
-
-/* === QScrollBar === */
-QScrollBar:horizontal, QScrollBar:vertical {
-    background: #1e1e1e;
-    margin: 0px;
-    border: none;
-}
-QScrollBar::handle {
-    background: #444;
+/* ==== QSpinBox ==== */
+QSpinBox {
+    border: 1px solid #555;
     border-radius: 4px;
-    min-height: 20px;
+    background-color: #1f1f1f;
+    padding-right: 16px;
 }
-QScrollBar::handle:hover {
-    background: #2b547e;
+QSpinBox::up-button, QSpinBox::down-button {
+    subcontrol-origin: border;
+    width: 16px;
+    background-color: #2f2f2f;
+    border-left: 1px solid #555;
 }
-QScrollBar::add-line, QScrollBar::sub-line {
-    background: none;
-    height: 0px;
-    width: 0px;
+QSpinBox::up-arrow {
+    image: url(:/icons/up_arrow.png);
+}
+QSpinBox::down-arrow {
+    image: url(:/icons/down_arrow.png);
 }
 
-/* === QSlider === */
-QSlider::groove:horizontal, QSlider::groove:vertical {
+/* ==== QSlider ==== */
+QSlider::groove:horizontal {
     background: #444;
-    border: 1px solid #5c5c5c;
-    border-radius: 4px;
+    height: 4px;
+    border-radius: 2px;
 }
-QSlider::handle:horizontal, QSlider::handle:vertical {
-    background: #2e74d0;
-    border-radius: 6px;
-    border: 1px solid #5c5c5c;
+QSlider::handle:horizontal {
+    background: #888;
+    border: 1px solid #666;
     width: 12px;
-    height: 12px;
+    margin: -4px 0;
+    border-radius: 6px;
+}
+QSlider::handle:horizontal:hover {
+    background: #aaa;
 }
 
-/* === QProgressBar === */
+/* ==== QProgressBar ==== */
 QProgressBar {
-    border: 1px solid #5c5c5c;
-    border-radius: 6px;
-    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
     text-align: center;
-    color: #ccc;
+    background: #1f1f1f;
 }
 QProgressBar::chunk {
-    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #2e74d0, stop:1 #2b547e);
-    border-radius: 6px;
+    background-color: #007acc;
+    margin: 0.5px;
 }
 
-/* === QTabBar === */
+/* ==== QListView / QTreeView ==== */
+QListView, QTreeView {
+    background-color: #1f1f1f;
+    alternate-background-color: #2a2a2a;
+    border: 1px solid #333;
+    show-decoration-selected: 1;
+}
+QListView::item:hover, QTreeView::item:hover {
+    background: #333;
+}
+QListView::item:selected, QTreeView::item:selected {
+    background: #005a9e;
+    border: 1px solid #007acc;
+}
+
+/* ==== QScrollBar ==== */
+QScrollBar:vertical {
+    background: #1f1f1f;
+    width: 10px;
+    margin: 0px;
+}
+QScrollBar::handle:vertical {
+    background: #4d4d4d;
+    min-height: 20px;
+    border-radius: 4px;
+}
+QScrollBar::handle:vertical:hover {
+    background: #666;
+}
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    background: #2a2a2a;
+    height: 0px;
+}
+
+QScrollBar:horizontal {
+    background: #1f1f1f;
+    height: 10px;
+    margin: 0px;
+}
+QScrollBar::handle:horizontal {
+    background: #4d4d4d;
+    min-width: 20px;
+    border-radius: 4px;
+}
+QScrollBar::handle:horizontal:hover {
+    background: #666;
+}
+
+/* ==== QTabWidget / QTabBar ==== */
+QTabWidget::pane {
+    border: 1px solid #444;
+    background: #1f1f1f;
+}
 QTabBar::tab {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #1e1e1e, stop:1 #242424);
-    border: 1px solid #5c5c5c;
-    padding: 6px 10px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-bottom: none;
+    padding: 5px 10px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    margin-right: 2px;
-    color: #dcdcdc;
 }
 QTabBar::tab:selected {
-    background: #2b547e;
-    border: 1px solid #2e74d0;
-    color: white;
+    background: #1f1f1f;
+    border-color: #777;
+}
+QTabBar::tab:hover {
+    background: #333;
 }
 
-/* === QMenu === */
+/* ==== QMenu ==== */
 QMenu {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #3a3a3a, stop:1 #2d2d2d);
-    color: #e0e0e0;
-    border: 1px solid #5c5c5c;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
 }
 QMenu::item {
-    padding: 5px 20px;
+    padding: 4px 20px;
 }
 QMenu::item:selected {
-    background-color: #2b547e;
+    background-color: #007acc;
 }
 
-/* === QMenuBar === */
-QMenuBar {
-    background: #1e1e1e;
-    color: #dcdcdc;
-}
-QMenuBar::item {
-    padding: 4px 10px;
-}
-QMenuBar::item:selected {
-    background-color: #2b547e;
-}
-
-/* === QTreeView / QTreeWidget === */
-QTreeView, QTreeWidget {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #1e1e1e, stop:1 #242424);
-    color: #dcdcdc;
-    alternate-background-color: #2d2d2d;
-    border: 1px solid #5c5c5c;
-}
-QTreeView::item:selected, QTreeWidget::item:selected {
-    background-color: #2b547e;
-    color: white;
-}
-QHeaderView::section {
-    background-color: #3a3a3a;
-    border: 1px solid #5c5c5c;
+/* ==== QToolTip ==== */
+QToolTip {
+    background: #4d4d4d;
+    color: #ffffff;
+    border: 1px solid #888;
     padding: 4px;
-    color: #dcdcdc;
+    border-radius: 4px;
+    opacity: 230;
 }
 
-/* === QStatusBar === */
-QStatusBar {
-    background-color: #1e1e1e;
-    color: #8dc3ff;
-    border-top: 1px solid #3a3a3a;
+/* ==== QGroupBox ==== */
+QGroupBox {
+    border: 1px solid #444;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0 3px;
+    color: #aaa;
+}
+
+/* ==== QLabel ==== */
+QLabel {
+    background: transparent;
+}
+
+/* ==== QCheckBox / QRadioButton ==== */
+QCheckBox, QRadioButton {
+    spacing: 5px;
+}
+QCheckBox::indicator, QRadioButton::indicator {
+    width: 13px;
+    height: 13px;
+}
+QCheckBox::indicator:unchecked {
+    image: url(:/icons/checkbox_unchecked.png);
+}
+QCheckBox::indicator:checked {
+    image: url(:/icons/checkbox_checked.png);
+}
+QRadioButton::indicator:unchecked {
+    image: url(:/icons/radiobutton_unchecked.png);
+}
+QRadioButton::indicator:checked {
+    image: url(:/icons/radiobutton_checked.png);
 }
 </string>
   </property>
@@ -305,23 +320,12 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Button">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Light">
@@ -388,43 +392,21 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Base">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Shadow">
@@ -484,23 +466,12 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Button">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Light">
@@ -567,43 +538,21 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Base">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Shadow">
@@ -663,23 +612,12 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Button">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Light">
@@ -746,43 +684,21 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Base">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
-       <brush brushstyle="LinearGradientPattern">
-        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
-         <gradientstop position="0.000000000000000">
-          <color alpha="255">
-           <red>30</red>
-           <green>30</green>
-           <blue>30</blue>
-          </color>
-         </gradientstop>
-         <gradientstop position="1.000000000000000">
-          <color alpha="255">
-           <red>36</red>
-           <green>36</green>
-           <blue>36</blue>
-          </color>
-         </gradientstop>
-        </gradient>
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>43</red>
+         <green>43</green>
+         <blue>43</blue>
+        </color>
        </brush>
       </colorrole>
       <colorrole role="Shadow">
@@ -1027,7 +943,7 @@ QStatusBar {
      <x>0</x>
      <y>0</y>
      <width>1128</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
