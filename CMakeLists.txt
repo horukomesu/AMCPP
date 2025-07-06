@@ -86,7 +86,9 @@ endif()
 
 target_link_libraries(AutomodellerCPP PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::Sql)
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::Gui
+    Qt${QT_VERSION_MAJOR}::Core)
 
 
 set_source_files_properties(miniz.c PROPERTIES LANGUAGE C)
@@ -114,3 +116,20 @@ install(TARGETS AutomodellerCPP
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(AutomodellerCPP)
 endif()
+
+
+if(WIN32)
+    # Полный путь к windeployqt.exe
+    set(WINDEPLOYQT "C:/Qt/6.9.1/msvc2022_64/bin/windeployqt.exe")
+
+    add_custom_command(TARGET AutomodellerCPP POST_BUILD
+        COMMAND "${WINDEPLOYQT}"
+            --no-translations
+            --no-quick-import
+            --dir "$<TARGET_FILE_DIR:AutomodellerCPP>"
+            "$<TARGET_FILE:AutomodellerCPP>"
+        COMMENT "Deploying Qt dependencies with windeployqt..."
+    )
+endif()
+
+
