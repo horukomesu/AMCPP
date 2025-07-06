@@ -60,7 +60,6 @@ void AddLocatorTool::onMousePress(QMouseEvent *event)
                 event->accept();
             }
         }
-        return;
     }
     if (!viewer())
         return;

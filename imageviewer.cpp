@@ -107,7 +107,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
 
         QAction *action1 = menu.addAction(tr("Действие 1"));
         QAction *action2 = menu.addAction(tr("Действие 2"));
-        QAction *selectedAction = menu.exec(event->globalPos());
+        QAction *selectedAction = menu.exec(event->globalPosition().toPoint());
 
         if (selectedAction == action1) {
             qDebug() << "Выбрано: Действие 1";
