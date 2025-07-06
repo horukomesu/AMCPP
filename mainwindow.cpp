@@ -120,7 +120,6 @@ void MainWindow::onLocatorAdded(float x, float y)
             break;
         }
     }
-    m_toolController->setActiveTool(ToolType::None);
     QList<ViewerMarker> markers;
     for (const LocatorData &l : locators) {
         if (l.positions.contains(currentIndex)) {
