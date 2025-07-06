@@ -21,13 +21,16 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void dragEnterEvent(QDragEnterEvent * evt) override;
+    void dropEvent(QDropEvent * evt) override;
+
 private slots:
     void importImages();
     void addLocator();
     void newScene();
     void saveSceneTriggered();
     void saveSceneAsTriggered();
-    void loadSceneTriggered();
+    void loadSceneTriggered(QString filename);
 //void calibrate();
     void defineWorldspace();
     void defineReferenceDistance();

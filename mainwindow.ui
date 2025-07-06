@@ -943,7 +943,7 @@ QRadioButton::indicator:checked {
      <x>0</x>
      <y>0</y>
      <width>1128</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1054,12 +1054,12 @@ QRadioButton::indicator:checked {
            <property name="elideMode">
             <enum>Qt::TextElideMode::ElideNone</enum>
            </property>
-           <widget class="QWidget" name="ParametersPage1" native="true">
+           <widget class="QWidget" name="ParametersPage1">
             <attribute name="title">
              <string>Parameters</string>
             </attribute>
            </widget>
-           <widget class="QWidget" name="ParametersPage2" native="true">
+           <widget class="QWidget" name="ParametersPage2">
             <attribute name="title">
              <string>Info</string>
             </attribute>

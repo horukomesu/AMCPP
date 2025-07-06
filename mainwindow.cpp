@@ -9,6 +9,9 @@
 #include <QFileInfo>
 #include <qdebug.h>
 #include "tools.h"
+#include <event.h>
+#include <QMimeData>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -19,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
       m_addLocatorTool(nullptr)
 {
     ui->setupUi(this);
+    setAcceptDrops(true);
 
     QVBoxLayout *layout = new QVBoxLayout(ui->MainFrame);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -45,7 +49,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::importImages);
     connect(ui->actionNEW, &QAction::triggered, this, &MainWindow::newScene);
-    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::loadSceneTriggered);
+
+    connect(ui->actionOpen, &QAction::triggered, this, [this](){
+        this->loadSceneTriggered(QFileDialog::getOpenFileName(this, tr("Load Scene"), QString(), tr("AMS Scene (*.ams)")));
+    });
+
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveSceneTriggered);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveSceneAsTriggered);
     connect(ui->btnAddLoc, &QPushButton::clicked, this, &MainWindow::addLocator);
@@ -201,9 +209,9 @@ void MainWindow::saveSceneAsTriggered()
     saveSceneTriggered();
 }
 
-void MainWindow::loadSceneTriggered()
+void MainWindow::loadSceneTriggered(QString filename)
 {
-    QString path = QFileDialog::getOpenFileName(this, tr("Load Scene"), QString(), tr("AMS Scene (*.ams)"));
+    QString path = filename;
     if (path.isEmpty())
         return;
     QStringList imgs;
@@ -223,6 +231,33 @@ void MainWindow::loadSceneTriggered()
     updateTree();
 }
 
+
+void MainWindow::dragEnterEvent(QDragEnterEvent * evt)
+{
+    if(evt->mimeData()->hasUrls())
+        evt->accept();
+}
+void MainWindow::dropEvent(QDropEvent * evt)
+{
+
+    const QMimeData *mimeData = evt->mimeData();
+    if(mimeData->hasUrls())
+    {
+        auto urls = mimeData->urls();
+        foreach(auto url, urls) {
+            QString str = url.toString();
+
+            if(str.startsWith("file:///home/")) // linux moment
+                str.replace("file:///home/","/home/");
+
+            if(str.startsWith("file:///"))
+                str.replace("file:///","");
+
+            loadSceneTriggered(str);
+
+        }
+    }
+}
 
 
 void MainWindow::defineWorldspace()
