@@ -1,25 +1,23 @@
 cmake_minimum_required(VERSION 3.16)
-
 project(AutomodellerCPP VERSION 0.1 LANGUAGES C CXX)
+
+# === Платформозависимые пути ===
+if(WIN32)
+    set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
+
 
 set(CMAKE_PREFIX_PATH
     "C:/vcpkg/vcpkg/installed/x64-windows"
     "C:/Qt/6.9.1/msvc2022_64"
 )
-if(WIN32)
-    set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-endif()
-
-if(POLICY CMP0167)
-  cmake_policy(SET CMP0167 OLD)
-endif()
-
+# === CMake и Qt настройки ===
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql LinguistTools)
@@ -29,31 +27,20 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(TS_FILES AutomodellerCPP_en_US.ts)
 
 
+# === Переводы ===
+set(TS_FILES AutomodellerCPP_en_US.ts)
 
 
-#if(WIN32)
-   # set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems")
-#endif()
 
+# === Исходники ===
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        imageviewer.cpp
-        imageviewer.h
-        filesystem.cpp
-        filesystem.h
-        amutilities.cpp
-        amutilities.h
-
-
-
-
-
-
-        miniz.c
-        ${TS_FILES}
+    main.cpp
+    mainwindow.cpp mainwindow.h mainwindow.ui
+    imageviewer.cpp imageviewer.h
+    filesystem.cpp filesystem.h
+    amutilities.cpp amutilities.h
+    miniz.c
+    ${TS_FILES}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -62,50 +49,31 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         resources.qrc
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET AutomodellerCPP APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
-    if(ANDROID)
-        add_library(AutomodellerCPP SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(AutomodellerCPP
-            ${PROJECT_SOURCES}
-        )
-    endif()
-
+    add_executable(AutomodellerCPP ${PROJECT_SOURCES})
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
 target_link_libraries(AutomodellerCPP PRIVATE
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
-    Qt${QT_VERSION_MAJOR}::Gui
-    Qt${QT_VERSION_MAJOR}::Core)
-
-
-set_source_files_properties(miniz.c PROPERTIES LANGUAGE C)
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.AutomodellerCPP)
-endif()
-set_target_properties(AutomodellerCPP PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
 )
 
+set_source_files_properties(miniz.c PROPERTIES LANGUAGE C)
+
+# === Свойства приложения (Windows/macOS) ===
+set_target_properties(AutomodellerCPP PROPERTIES
+    WIN32_EXECUTABLE TRUE
+    MACOSX_BUNDLE TRUE
+    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.AutomodellerCPP
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+)
+
+# === Установка ===
 include(GNUInstallDirs)
 install(TARGETS AutomodellerCPP
     BUNDLE DESTINATION .
@@ -113,23 +81,34 @@ install(TARGETS AutomodellerCPP
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+# === Завершаем Qt экзешник ===
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(AutomodellerCPP)
 endif()
 
-
+# === Авто-деплой Qt DLL через windeployqt ===
 if(WIN32)
-    # Полный путь к windeployqt.exe
-    set(WINDEPLOYQT "C:/Qt/6.9.1/msvc2022_64/bin/windeployqt.exe")
-
-    add_custom_command(TARGET AutomodellerCPP POST_BUILD
-        COMMAND "${WINDEPLOYQT}"
-            --no-translations
-            --no-quick-import
-            --dir "$<TARGET_FILE_DIR:AutomodellerCPP>"
-            "$<TARGET_FILE:AutomodellerCPP>"
-        COMMENT "Deploying Qt dependencies with windeployqt..."
+    # Пытаемся найти windeployqt динамически
+    find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt
+        PATHS
+            "${Qt${QT_VERSION_MAJOR}_DIR}/../../../bin"
+            "$ENV{Qt6_DIR}/../../../bin"
+            "$ENV{Qt5_DIR}/../../../bin"
+            "C:/Qt"
+        REQUIRED
+        NO_DEFAULT_PATH
     )
+
+    if(WINDEPLOYQT_EXECUTABLE)
+        add_custom_command(TARGET AutomodellerCPP POST_BUILD
+            COMMAND "${WINDEPLOYQT_EXECUTABLE}"
+                --no-translations
+                --no-quick-import
+                --dir "$<TARGET_FILE_DIR:AutomodellerCPP>"
+                "$<TARGET_FILE:AutomodellerCPP>"
+            COMMENT "Deploying Qt dependencies with windeployqt..."
+        )
+    else()
+        message(WARNING "windeployqt not found — deployment will not run.")
+    endif()
 endif()
-
-
