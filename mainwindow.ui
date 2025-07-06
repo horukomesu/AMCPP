@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +14,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>AutoModeler</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/icons/AMLogo.png</normaloff>:/icons/icons/AMLogo.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -19,16 +29,23 @@
   <property name="styleSheet">
    <string notr="true">/* === Глобальный фон и текст === */
 QWidget {
-    background-color: #1e1e1e;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #1e1e1e, stop:1 #242424);
     color: #d0d0d0;
     font-family: &quot;Segoe UI&quot;, &quot;Roboto&quot;, &quot;San Francisco&quot;, sans-serif;
     font-size: 8pt;
+    border: 2px solid #242424;
 }
 
 /* === QMainWindow / QDialog / QFrame === */
-QMainWindow, QDialog, QFrame {
+QMainWindow {
     background-color: #1e1e1e;
     border: none;
+}
+
+QDialog, QFrame{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #1e1e1e, stop:1 #242424);
 }
 
 /* === QLabel / QCheckBox / QRadioButton === */
@@ -42,7 +59,7 @@ QCheckBox:disabled, QRadioButton:disabled {
 /* === QPushButton, QToolButton, QCommandLinkButton === */
 QPushButton, QToolButton, QCommandLinkButton {
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #3a3a3a, stop:1 #2d2d2d);
+        stop:0 #1e1e1e, stop:1 #242424);
     border: 1px solid #5c5c5c;
     border-radius: 6px;
     color: #e0e0e0;
@@ -78,7 +95,8 @@ QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus {
 
 /* === QComboBox === */
 QComboBox {
-    background-color: #2b2b2b;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #3a3a3a, stop:1 #2d2d2d);
     border: 1px solid #5c5c5c;
     padding: 4px;
     border-radius: 6px;
@@ -182,7 +200,7 @@ QProgressBar::chunk {
 /* === QTabBar === */
 QTabBar::tab {
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-        stop:0 #3a3a3a, stop:1 #2d2d2d);
+        stop:0 #1e1e1e, stop:1 #242424);
     border: 1px solid #5c5c5c;
     padding: 6px 10px;
     border-top-left-radius: 4px;
@@ -198,7 +216,8 @@ QTabBar::tab:selected {
 
 /* === QMenu === */
 QMenu {
-    background-color: #2a2a2a;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #3a3a3a, stop:1 #2d2d2d);
     color: #e0e0e0;
     border: 1px solid #5c5c5c;
 }
@@ -223,7 +242,8 @@ QMenuBar::item:selected {
 
 /* === QTreeView / QTreeWidget === */
 QTreeView, QTreeWidget {
-    background-color: #2a2a2a;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #1e1e1e, stop:1 #242424);
     color: #dcdcdc;
     alternate-background-color: #2d2d2d;
     border: 1px solid #5c5c5c;
@@ -247,11 +267,20 @@ QStatusBar {
 }
 </string>
   </property>
+  <property name="iconSize">
+   <size>
+    <width>64</width>
+    <height>64</height>
+   </size>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
+  </property>
   <property name="documentMode">
    <bool>false</bool>
   </property>
   <property name="tabShape">
-   <enum>QTabWidget::TabShape::Triangular</enum>
+   <enum>QTabWidget::TabShape::Rounded</enum>
   </property>
   <property name="dockNestingEnabled">
    <bool>false</bool>
@@ -276,12 +305,23 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Button">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Light">
@@ -348,21 +388,43 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Base">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Window">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Shadow">
@@ -422,12 +484,23 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Button">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Light">
@@ -494,21 +567,43 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Base">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Window">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Shadow">
@@ -568,12 +663,23 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Button">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Light">
@@ -640,21 +746,43 @@ QStatusBar {
        </brush>
       </colorrole>
       <colorrole role="Base">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Window">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>30</red>
-         <green>30</green>
-         <blue>30</blue>
-        </color>
+       <brush brushstyle="LinearGradientPattern">
+        <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.000000000000000" endy="1.000000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>30</red>
+           <green>30</green>
+           <blue>30</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>36</red>
+           <green>36</green>
+           <blue>36</blue>
+          </color>
+         </gradientstop>
+        </gradient>
        </brush>
       </colorrole>
       <colorrole role="Shadow">
@@ -705,7 +833,182 @@ QStatusBar {
      </disabled>
     </palette>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>50</height>
+       </size>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="btnAddLoc">
+         <property name="toolTip">
+          <string>CreateMove Marker</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/icons/Icon01.png</normaloff>:/icons/icons/Icon01.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCalibrate">
+         <property name="toolTip">
+          <string>Calibrate</string>
+         </property>
+         <property name="toolTipDuration">
+          <number>-1</number>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/icons/Icon02.png</normaloff>:/icons/icons/Icon02.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDFWS">
+         <property name="toolTip">
+          <string>Define Worldspace</string>
+         </property>
+         <property name="toolTipDuration">
+          <number>-1</number>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/icons/Icon03.png</normaloff>:/icons/icons/Icon03.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDFMM">
+         <property name="toolTip">
+          <string>Define Reference Distance</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/icons/Icon04.png</normaloff>:/icons/icons/Icon04.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnLocMod">
+         <property name="toolTip">
+          <string>Add Modeling Locator</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/icons/Icon05.png</normaloff>:/icons/icons/Icon05.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSetCenter">
+         <property name="toolTip">
+          <string>Add Modeling Locator</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/icons/Icon05.png</normaloff>:/icons/icons/Icon05.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>996</width>
+           <height>29</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item>
      <widget class="QFrame" name="MainFrame">
       <property name="frameShape">
@@ -724,7 +1027,7 @@ QStatusBar {
      <x>0</x>
      <y>0</y>
      <width>1128</width>
-     <height>23</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -759,216 +1062,11 @@ QStatusBar {
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
   </widget>
-  <widget class="QDockWidget" name="dockWidget_4">
-   <property name="minimumSize">
-    <size>
-     <width>967</width>
-     <height>70</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>524287</width>
-     <height>70</height>
-    </size>
-   </property>
-   <property name="floating">
-    <bool>false</bool>
-   </property>
-   <property name="features">
-    <set>QDockWidget::DockWidgetFeature::DockWidgetMovable|QDockWidget::DockWidgetFeature::DockWidgetVerticalTitleBar</set>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::DockWidgetArea::BottomDockWidgetArea|Qt::DockWidgetArea::TopDockWidgetArea</set>
-   </property>
-   <property name="windowTitle">
-    <string/>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_4">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QFrame" name="frame_3">
-       <property name="frameShape">
-        <enum>QFrame::Shape::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Shadow::Raised</enum>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QPushButton" name="btnAddLoc">
-          <property name="toolTip">
-           <string>CreateMove Marker</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="resources.qrc">
-            <normaloff>:/icons/icons/Icon01.png</normaloff>:/icons/icons/Icon01.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnCalibrate">
-          <property name="toolTip">
-           <string>Calibrate</string>
-          </property>
-          <property name="toolTipDuration">
-           <number>-1</number>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="resources.qrc">
-            <normaloff>:/icons/icons/Icon02.png</normaloff>:/icons/icons/Icon02.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnDFWS">
-          <property name="toolTip">
-           <string>Define Worldspace</string>
-          </property>
-          <property name="toolTipDuration">
-           <number>-1</number>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="resources.qrc">
-            <normaloff>:/icons/icons/Icon03.png</normaloff>:/icons/icons/Icon03.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnDFMM">
-          <property name="toolTip">
-           <string>Define Reference Distance</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="resources.qrc">
-            <normaloff>:/icons/icons/Icon04.png</normaloff>:/icons/icons/Icon04.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnLocMod">
-          <property name="toolTip">
-           <string>Add Modeling Locator</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="resources.qrc">
-            <normaloff>:/icons/icons/Icon05.png</normaloff>:/icons/icons/Icon05.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnSetCenter">
-          <property name="toolTip">
-           <string>Add Modeling Locator</string>
-          </property>
-          <property name="text">
-           <string>center</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>737</width>
-            <height>29</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnMoveToScene">
-          <property name="text">
-           <string>Move To Scene</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <widget class="QDockWidget" name="dockWidget_6">
    <property name="minimumSize">
     <size>
      <width>204</width>
-     <height>122</height>
+     <height>228</height>
     </size>
    </property>
    <property name="floating">
@@ -987,42 +1085,73 @@ QStatusBar {
     <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_6">
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QTreeWidget" name="MainTree">
-       <property name="showDropIndicator" stdset="0">
-        <bool>true</bool>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
        </property>
-       <property name="sortingEnabled">
-        <bool>false</bool>
-       </property>
-       <property name="animated">
-        <bool>false</bool>
-       </property>
-       <attribute name="headerVisible">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="headerHighlightSections">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="headerStretchLastSection">
-        <bool>true</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string notr="true"/>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item>
-      <widget class="QFrame" name="FrameDetails">
-       <property name="frameShape">
-        <enum>QFrame::Shape::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Shadow::Raised</enum>
-       </property>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QTreeWidget" name="MainTree">
+           <property name="showDropIndicator" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="sortingEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="animated">
+            <bool>false</bool>
+           </property>
+           <attribute name="headerVisible">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="headerHighlightSections">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="headerStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget_2">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QTabWidget" name="TabWidgetDetails">
+           <property name="tabPosition">
+            <enum>QTabWidget::TabPosition::North</enum>
+           </property>
+           <property name="tabShape">
+            <enum>QTabWidget::TabShape::Rounded</enum>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <property name="elideMode">
+            <enum>Qt::TextElideMode::ElideNone</enum>
+           </property>
+           <widget class="QWidget" name="ParametersPage1" native="true">
+            <attribute name="title">
+             <string>Parameters</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="ParametersPage2" native="true">
+            <attribute name="title">
+             <string>Info</string>
+            </attribute>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
     </layout>

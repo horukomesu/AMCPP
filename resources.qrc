@@ -5,5 +5,6 @@
         <file>icons/Icon03.png</file>
         <file>icons/Icon04.png</file>
         <file>icons/Icon05.png</file>
+        <file>icons/AMLogo.png</file>
     </qresource>
 </RCC>
