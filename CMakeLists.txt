@@ -40,6 +40,7 @@ set(PROJECT_SOURCES
     tools.cpp tools.h
     filesystem.cpp filesystem.h
     amutilities.cpp amutilities.h
+    camera_calibrator.cpp camera_calibrator.h
     miniz.c
     ${TS_FILES}
 )
