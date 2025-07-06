@@ -5,6 +5,7 @@
 #include "imageviewer.h"
 #include "tools.h"
 #include "amutilities.h"
+#include "camera_calibrator.h"
 #include <QTreeWidgetItem>
 
 QT_BEGIN_NAMESPACE
@@ -31,7 +32,7 @@ private slots:
     void saveSceneTriggered();
     void saveSceneAsTriggered();
     void loadSceneTriggered(QString filename);
-//void calibrate();
+    void calibrate();
     void defineWorldspace();
     void defineReferenceDistance();
     void addModelingLocator();
