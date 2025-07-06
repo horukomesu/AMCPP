@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "imageviewer.h"
+#include "tools.h"
 #include "amutilities.h"
 #include <QTreeWidgetItem>
 
@@ -53,5 +54,7 @@ private:
     QString sceneFilePath;
     bool locatorMode;
     int currentIndex;
+    ToolController *m_toolController;
+    AddLocatorTool *m_addLocatorTool;
 };
 #endif // MAINWINDOW_H

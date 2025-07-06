@@ -37,6 +37,7 @@ set(PROJECT_SOURCES
     main.cpp
     mainwindow.cpp mainwindow.h mainwindow.ui
     imageviewer.cpp imageviewer.h
+    tools.cpp tools.h
     filesystem.cpp filesystem.h
     amutilities.cpp amutilities.h
     miniz.c

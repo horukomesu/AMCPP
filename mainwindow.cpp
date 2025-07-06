@@ -8,12 +8,15 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <qdebug.h>
+#include "tools.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       viewer(nullptr),
-      currentIndex(-1)
+      currentIndex(-1),
+      m_toolController(nullptr),
+      m_addLocatorTool(nullptr)
 {
     ui->setupUi(this);
 
@@ -21,6 +24,16 @@ MainWindow::MainWindow(QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
     viewer = new ImageViewer(ui->MainFrame);
     layout->addWidget(viewer);
+    m_toolController = new ToolController(viewer, this);
+    m_addLocatorTool = new AddLocatorTool(viewer, m_toolController);
+    connect(m_addLocatorTool, &AddLocatorTool::locatorCreated,
+            this, &MainWindow::onLocatorAdded);
+    m_toolController->registerTool(ToolType::AddLocator, m_addLocatorTool);
+    m_toolController->registerTool(ToolType::DefineMeasurements,
+                                   new DefineMeasurementsTool(viewer, m_toolController));
+    m_toolController->registerTool(ToolType::DefineWorldspace,
+                                   new DefineWorldspaceTool(viewer, m_toolController));
+    viewer->setToolController(m_toolController);
 
     locatorMode = false;
     sceneFilePath.clear();
@@ -41,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnDFMM, &QPushButton::clicked, this, &MainWindow::defineReferenceDistance);
     connect(ui->btnLocMod, &QPushButton::clicked, this, &MainWindow::addModelingLocator);
 
-    connect(viewer, &ImageViewer::locatorAdded, this, &MainWindow::onLocatorAdded);
     connect(viewer, &ImageViewer::navigate, this, [this](int step){
         if(step > 0) nextImage(); else prevImage();
     });
@@ -94,7 +106,7 @@ void MainWindow::addLocator()
     LocatorData loc;
     loc.name = selectedLocator;
     locators.append(loc);
-    viewer->setAddingLocator(true);
+    m_toolController->setActiveTool(ToolType::AddLocator);
     updateTree();
 }
 
@@ -108,7 +120,7 @@ void MainWindow::onLocatorAdded(float x, float y)
             break;
         }
     }
-    viewer->setAddingLocator(false);
+    m_toolController->setActiveTool(ToolType::None);
     QList<ViewerMarker> markers;
     for (const LocatorData &l : locators) {
         if (l.positions.contains(currentIndex)) {
@@ -216,12 +228,12 @@ void MainWindow::loadSceneTriggered()
 
 void MainWindow::defineWorldspace()
 {
-    QMessageBox::information(this, tr("Worldspace"), tr("Define worldspace not implemented."));
+    m_toolController->setActiveTool(ToolType::DefineWorldspace);
 }
 
 void MainWindow::defineReferenceDistance()
 {
-    QMessageBox::information(this, tr("Reference Distance"), tr("Define reference distance not implemented."));
+    m_toolController->setActiveTool(ToolType::DefineMeasurements);
 }
 
 void MainWindow::addModelingLocator()
@@ -253,7 +265,7 @@ void MainWindow::updateTree()
 void MainWindow::exitLocatorMode()
 {
     locatorMode = false;
-    viewer->setAddingLocator(false);
+    m_toolController->setActiveTool(ToolType::None);
 }
 
 void MainWindow::onTreeSelectionChanged(QTreeWidgetItem *current, QTreeWidgetItem *)
@@ -271,7 +283,7 @@ void MainWindow::onTreeSelectionChanged(QTreeWidgetItem *current, QTreeWidgetIte
     } else if (pText == tr("Locators")) {
         selectedLocator = current->text(0);
         locatorMode = true;
-        viewer->setAddingLocator(true);
+        m_toolController->setActiveTool(ToolType::AddLocator);
     }
 }
 
