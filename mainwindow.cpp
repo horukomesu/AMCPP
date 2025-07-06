@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "Calibrator.h"
 #include <QFileDialog>
 #include <QVBoxLayout>
 #include <QShortcut>

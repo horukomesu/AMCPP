@@ -89,6 +89,21 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
     } else {
         QGraphicsView::mousePressEvent(event);
     }
+    if (event->button() == Qt::RightButton) {
+        QMenu menu(this);
+
+        QAction *action1 = menu.addAction(tr("Действие 1"));
+        QAction *action2 = menu.addAction(tr("Действие 2"));
+        QAction *selectedAction = menu.exec(event->globalPos());
+
+        if (selectedAction == action1) {
+            qDebug() << "Выбрано: Действие 1";
+        } else if (selectedAction == action2) {
+            qDebug() << "Выбрано: Действие 2";
+        }
+
+        return;
+    }
 }
 
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
