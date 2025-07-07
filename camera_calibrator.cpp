@@ -91,8 +91,8 @@ bool CameraCalibrator::populateDatabase(const QString &dbPath) {
 
     for (int i = 0; i < m_imagePaths.size(); ++i) {
       for (int j = i + 1; j < m_imagePaths.size(); ++j) {
-        QSet<int> common =
-            m_keypointMaps[i].keys().toSet() & m_keypointMaps[j].keys().toSet();
+            QSet<int> common = QSet<int>(m_keypointMaps[i].keys().begin(), m_keypointMaps[i].keys().end()) &
+                               QSet<int>(m_keypointMaps[j].keys().begin(), m_keypointMaps[j].keys().end());
         if (common.isEmpty())
           continue;
         FeatureMatches matches;

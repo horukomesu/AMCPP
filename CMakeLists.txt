@@ -17,15 +17,23 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL") # = /MD
 
 
 find_package(QT NAMES Qt6 REQUIRED Qt5 REQUIRED COMPONENTS Widgets Sql LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql LinguistTools)
 find_package(colmap REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
+
+find_package(gflags CONFIG REQUIRED)
+find_package(glog CONFIG REQUIRED)
+
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(TS_FILES AutomodellerCPP_en_US.ts)
 
+include_directories("C:/vcpkg/vcpkg/installed/x64-windows/include")
+link_directories("C:/vcpkg/vcpkg/installed/x64-windows/lib")
 
 # === Переводы ===
 set(TS_FILES AutomodellerCPP_en_US.ts)
@@ -45,11 +53,15 @@ set(PROJECT_SOURCES
     ${TS_FILES}
 )
 
+
+
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(AutomodellerCPP
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         resources.qrc
+
     )
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
@@ -57,11 +69,17 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
+if (TARGET gflags AND NOT TARGET gflags::gflags)
+    add_library(gflags::gflags ALIAS gflags)
+endif()
+
 target_link_libraries(AutomodellerCPP PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
+    Eigen3::Eigen
+    colmap::colmap
 )
 
 set_source_files_properties(miniz.c PROPERTIES LANGUAGE C)
@@ -74,6 +92,8 @@ set_target_properties(AutomodellerCPP PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
+
+
 
 # === Установка ===
 include(GNUInstallDirs)

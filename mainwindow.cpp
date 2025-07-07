@@ -9,7 +9,7 @@
 #include <QFileInfo>
 #include <qdebug.h>
 #include "tools.h"
-#include <event.h>
+//#include <event.h>
 #include <QMimeData>
 #include <optional>
 #include <limits>
