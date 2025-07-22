@@ -4,13 +4,13 @@ project(AutomodellerCPP VERSION 0.1 LANGUAGES C CXX)
 # === Платформозависимые пути ===
 if(WIN32)
     set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-endif()
 
 
 set(CMAKE_PREFIX_PATH
     "C:/vcpkg/vcpkg/installed/x64-windows"
     "C:/Qt/6.9.1/msvc2022_64"
 )
+endif()
 # === CMake и Qt настройки ===
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -20,8 +20,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL") # = /MD
 
 
-find_package(QT NAMES Qt6 REQUIRED Qt5 REQUIRED COMPONENTS Widgets Sql LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS Core5Compat)
+find_package(QT NAMES Qt6 REQUIRED)
+find_package(QT NAMES Qt5 REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql LinguistTools)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Sql LinguistTools)
 find_package(colmap REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
 
@@ -74,12 +77,13 @@ if (TARGET gflags AND NOT TARGET gflags::gflags)
 endif()
 
 target_link_libraries(AutomodellerCPP PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core
-    Qt${QT_VERSION_MAJOR}::Gui
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::Sql
-    Eigen3::Eigen
     colmap::colmap
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Sql
+    Eigen3::Eigen
+
 )
 
 set_source_files_properties(miniz.c PROPERTIES LANGUAGE C)
@@ -114,7 +118,6 @@ if(WIN32)
     find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt
         PATHS
             "${Qt${QT_VERSION_MAJOR}_DIR}/../../../bin"
-            "$ENV{Qt6_DIR}/../../../bin"
             "$ENV{Qt5_DIR}/../../../bin"
             "C:/Qt"
         REQUIRED

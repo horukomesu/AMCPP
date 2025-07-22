@@ -6,6 +6,7 @@
 #include <QScrollBar>
 #include <QMouseEvent>
 #include <QPainter>
+#include <qdebug.h>
 
 ImageViewer::ImageViewer(QWidget *parent)
     : QGraphicsView(parent),
@@ -107,7 +108,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
 
         QAction *action1 = menu.addAction(tr("Действие 1"));
         QAction *action2 = menu.addAction(tr("Действие 2"));
-        QAction *selectedAction = menu.exec(event->globalPosition().toPoint());
+        QAction *selectedAction = menu.exec(event->globalPos());
 
         if (selectedAction == action1) {
             qDebug() << "Выбрано: Действие 1";

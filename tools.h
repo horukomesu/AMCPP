@@ -51,7 +51,7 @@ public:
 
 private:
     ImageViewer *m_viewer;
-    QHash<ToolType, ITool*> m_tools;
+    QMap<ToolType, ITool*> m_tools;
     ITool *m_currentTool;
     ToolType m_activeType;
 };
