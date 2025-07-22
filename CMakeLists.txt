@@ -20,10 +20,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL") # = /MD
 
 
-find_package(Qt6 REQUIRED COMPONENTS Core5Compat)
-find_package(QT NAMES Qt6 REQUIRED)
 find_package(QT NAMES Qt5 REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql LinguistTools)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Sql LinguistTools)
 find_package(colmap REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
